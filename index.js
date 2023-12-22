@@ -71,7 +71,31 @@ async function run() {
       res.send(result)
     })
 
-    
+     // find single id data for updating purpose
+     app.get("/create-task/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await tasksCollection.findOne(query);
+      res.send(result);
+    });
+
+    // update class collection data
+    app.patch("/create-task/:id", async (req, res) => {
+      const item = req.body;
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          title: item.title,
+          priority: item.priority,
+          details: item.details,
+          deadline: item.deadline,
+        },
+      };
+      const result = await tasksCollection.updateOne(filter, updatedDoc);
+      res.send(result);
+    });
+
 
      // delete  task collection data
      app.delete("/create-task/:id", async (req, res) => {
