@@ -36,6 +36,7 @@ async function run() {
 
     // collections
     const usersCollection = client.db("scc-technovision").collection("users");
+    const tasksCollection = client.db("scc-technovision").collection("tasks");
 
     // Save or modify user email, status in DB
     app.put("/users/:email", async (req, res) => {
@@ -55,6 +56,15 @@ async function run() {
       );
       res.send(result);
     });
+
+    // task collection 
+    app.post('/create-task', async (req, res) => {
+      const task = req.body;
+      const result = await tasksCollection.insertOne(task)
+      res.send(result)
+    })
+
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
