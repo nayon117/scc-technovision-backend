@@ -64,7 +64,12 @@ async function run() {
       res.send(result)
     })
 
-    
+    // get task collection data
+    app.get('/create-task', async (req, res) => {
+      const email = req.query.email;
+      const result = await tasksCollection.find({email}).toArray()
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
